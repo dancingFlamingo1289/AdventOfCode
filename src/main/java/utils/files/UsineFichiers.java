@@ -25,12 +25,12 @@ public class UsineFichiers {
 		
 		// --- fichiers texte
 		if (name.endsWith(".txt") || name.endsWith(".md") || name.endsWith(".log")) {
-			return new FichierTexte(f.getParentFile(), f.getName().replace(ext, "")) ;
+			return new TextFile(f.getParentFile(), f.getName().replace(ext, "")) ;
 		}
 
 		// --- fichiers tabulaires
 		if (name.endsWith(".csv") || name.endsWith(".tsv")) {
-			return new FichierTabulaire(f.getParentFile(), f.getName(), ext.equals("tsv") ? '\t' : ',') ;
+			return new TabularFile(f.getParentFile(), f.getName(), ext.equals("tsv") ? '\t' : ',') ;
 		}
 
 		// --- fichiers images

@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class TextFile extends BaseFile implements Iterable<String> {
 	/** In-memory content of the file, each element representing one line. */
-	private LinkedList<String> content;
+	private final LinkedList<String> content;
 
 	/**
 	 * Constructor for a text file. <br>
