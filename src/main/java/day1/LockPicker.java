@@ -26,7 +26,7 @@ public class LockPicker {
     }
 
     public static void main(String[] args) throws IOException, URISyntaxException {
-        System.out.println("===== LockPicker started =====");
+        System.out.println("\u001B[5;33m===== LockPicker started =====\u001B[0m");
         TextFile combFile = loadFromRessources(LOCK_FILE_NAME);
         BaseFile logFile = loadFromRessources(LOG_FILE_NAME);
 
@@ -46,6 +46,6 @@ public class LockPicker {
         }
         System.out.println("Part 2 password : " + lock2.obtainPasscode());
 
-        System.out.println("===== LockPicker finished =====");
+        System.out.println("\u001B[5;33m===== LockPicker finished =====\u001B[0m");
     }
 }
