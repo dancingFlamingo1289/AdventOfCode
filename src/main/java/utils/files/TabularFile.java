@@ -68,13 +68,7 @@ public class TabularFile extends BaseFile implements Iterable<List<String>> {
 	 * @param fileName  File name without extension.
      */
 	public TabularFile(File folder, String fileName) throws IOException {
-		super(folder, fileName, ".csv");
-		this.content = new LinkedList<>();
-		this.separator = ',';
-
-		if (file.exists()) {
-			read();
-		}
+		this(folder, fileName, ',');
 	}
 
 	/**

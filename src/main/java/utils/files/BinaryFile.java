@@ -32,7 +32,6 @@ public class BinaryFile extends BaseFile {
      */
 	public BinaryFile(File folder, String fileName, String extension)
 			throws FileNotFoundException, ClassNotFoundException, IOException {
-
 		super(folder, fileName, extension.startsWith(".") ? extension : "." + extension);
         this.extension = extension.startsWith(".") ? extension : "." + extension;
 
@@ -51,7 +50,7 @@ public class BinaryFile extends BaseFile {
 			throws FileNotFoundException, ClassNotFoundException, IOException {
 
 		super(fileName, extension.startsWith(".") ? extension : "." + extension);
-		this.extension = extension.startsWith(".") ? extension : "." + extension;
+        this.extension = extension.startsWith(".") ? extension : "." + extension;
 
 		if (file.exists()) {
 			read();

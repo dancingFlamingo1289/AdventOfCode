@@ -3,6 +3,9 @@ package day1;
 import day1.locks.BasicLock;
 import day1.locks.Lock;
 import day1.locks.NewMethodLock;
+import utils.fileReaders.FileReader;
+import utils.fileReaders.FileReaderException;
+import utils.fileReaders.TextFileReader;
 import utils.files.BaseFile;
 import utils.files.TextFile;
 
@@ -16,19 +19,29 @@ public class LockPicker {
     private static final String LOCK_FILE_NAME = "lockRotations.txt";
     private static final String LOG_FILE_NAME = "lock.log";
 
-    public static TextFile loadFromRessources(String fileName) throws IOException, URISyntaxException {
-        Path path = Path.of(
-                Objects.requireNonNull(LockPicker.class.getClassLoader()
-                                .getResource(LOCK_FILE_NAME))
-                        .toURI()
-        );
-        return new TextFile(path.toFile().getAbsolutePath());
+    public static TextFile loadFromRessources(String fileName) throws FileReaderException {
+        return (TextFile) TextFileReader.getInstance().loadFromResources(fileName, LockPicker.class.getClassLoader());
     }
 
-    public static void main(String[] args) throws IOException, URISyntaxException {
+    public static void main(String[] args) throws IOException {
         System.out.println("\u001B[5;33m===== LockPicker started =====\u001B[0m");
-        TextFile combFile = loadFromRessources(LOCK_FILE_NAME);
-        BaseFile logFile = loadFromRessources(LOG_FILE_NAME);
+
+        TextFile combFile;
+        TextFile logFile;
+
+        try {
+            combFile = loadFromRessources(LOCK_FILE_NAME);
+        } catch (FileReaderException e) {
+            combFile = new TextFile(BASE_PATH + LOCK_FILE_NAME);
+            combFile.write();
+        }
+
+        try {
+            logFile = loadFromRessources(LOG_FILE_NAME);
+        } catch (Exception e) {
+            logFile = new TextFile(BASE_PATH + LOG_FILE_NAME);
+            logFile.write();
+        }
 
         // Part 1
         Lock lock1 = new BasicLock(50);

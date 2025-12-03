@@ -232,6 +232,10 @@ public class TextFile extends BaseFile implements Iterable<String> {
 		return sb.toString();
 	}
 
+	public String getLine(int line) {
+		return content.get(line);
+	}
+
 	/**
 	 * Main method for testing.
 	 */
