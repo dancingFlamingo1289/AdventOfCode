@@ -188,19 +188,19 @@ public class TextFile extends BaseFile implements Iterable<String> {
 	 * @return true if the file was successfully deleted, false otherwise.
 	 */
 	public boolean deletePhysicalFile() {
-		if (file.exists()) {
-			boolean deleted = file.delete();
-			if (deleted) {
-				System.out.println("File " + file.getName() + " was physically deleted.");
-				content.clear();
-			} else {
-				System.err.println("Failed to physically delete the file: " + file.getName());
-			}
-			return deleted;
-		} else {
+		if (!file.exists()) {
 			System.out.println("File does not exist: " + file.getName());
 			return false;
 		}
+
+		boolean deleted = file.delete();
+		if (deleted) {
+			System.out.println("File " + file.getName() + " was physically deleted.");
+			content.clear();
+		} else {
+			System.err.println("Failed to physically delete the file: " + file.getName());
+		}
+		return deleted;
 	}
 
 	/**
@@ -234,6 +234,15 @@ public class TextFile extends BaseFile implements Iterable<String> {
 
 	public String getLine(int line) {
 		return content.get(line);
+	}
+
+	public boolean setLine(int line, String newLine) {
+		content.set(line, newLine);
+		return true;
+	}
+
+	public int getLineCount() {
+		return content.size();
 	}
 
 	/**
