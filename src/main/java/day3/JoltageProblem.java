@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class JoltageProblem {
     private static final String JOLTAGE_FILE_NAME = "joltages.txt";
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
 
     private static void debugPrint(String message) {
         if (DEBUG) {
