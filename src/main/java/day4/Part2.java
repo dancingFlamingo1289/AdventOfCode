@@ -3,67 +3,18 @@ package day4;
 import utils.fileReaders.FileReaderException;
 import utils.fileReaders.TextFileReader;
 import utils.files.TextFile;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class PaperRoller {
+public class Part2 {
     private static final String ROLLS_FILE_NAME = "paperRolls.txt";
 
-    // Cette méthode suppose que 'paperRolls.txt' contient la grille de rouleaux.
     public static TextFile loadFromRessources(String fileName) throws FileReaderException {
-        // NOTE: J'ai retiré 'PaperRoller.class.getClassLoader()' si la méthode
-        // loadFromResources gère l'accès au chemin relatif de la classe appelante.
-        // Si vous utilisez un système de ressources spécifique, ajustez l'appel.
-        return (TextFile) TextFileReader.getInstance().loadFromResources(fileName, PaperRoller.class.getClassLoader());
+        // Ajustez cette ligne si le chargement des ressources est différent dans votre environnement.
+        return (TextFile) TextFileReader.getInstance().loadFromResources(fileName, Part2.class.getClassLoader());
     }
 
-    /**
-     * Calcule le nombre de rouleaux de papier accessibles selon la règle :
-     * Un rouleau est accessible s'il a strictement moins de 4 rouleaux (@) dans ses 8 positions adjacentes.
-     * @param grid La grille des rouleaux de papier et des espaces vides.
-     * @return Le nombre total de rouleaux accessibles.
-     */
-    public static int solve(char[][] grid) {
-        int rows = grid.length;
-        if (rows == 0) return 0;
-        int cols = grid[0].length;
-        int accessibleCount = 0;
-
-        // Définir les offsets pour les 8 voisins (horizontal, vertical, diagonal)
-        int[] dr = {-1, -1, -1, 0, 0, 1, 1, 1}; // Différences de ligne (delta row)
-        int[] dc = {-1, 0, 1, -1, 1, -1, 0, 1}; // Différences de colonne (delta column)
-
-        for (int r = 0; r < rows; r++) {
-            for (int c = 0; c < cols; c++) {
-
-                // 1. Vérifier si la position actuelle est un rouleau de papier
-                if (grid[r][c] == '@') {
-                    int neighborRolls = 0;
-
-                    // 2. Compter les rouleaux dans les 8 positions adjacentes
-                    for (int i = 0; i < 8; i++) {
-                        int nr = r + dr[i]; // Ligne du voisin
-                        int nc = c + dc[i]; // Colonne du voisin
-
-                        // Gérer les bords : S'assurer que le voisin est dans les limites
-                        if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) {
-                            // 3. Compter si le voisin est un rouleau
-                            if (grid[nr][nc] == '@') {
-                                neighborRolls++;
-                            }
-                        }
-                    }
-
-                    // 4. Vérifier la règle d'accessibilité (N < 4)
-                    if (neighborRolls < 4) {
-                        accessibleCount++;
-                    }
-                }
-            }
-        }
-        return accessibleCount;
-    }
+    // --- Logique du problème (Méthodes d'aide) ---
 
     /**
      * Identifie les rouleaux accessibles dans l'état actuel de la grille.
@@ -146,11 +97,11 @@ public class PaperRoller {
         return totalRemoved;
     }
 
+    // --- Main Method ---
     public static void main(String[] args) throws FileReaderException {
         // Charger les données de la grille
         TextFile rollsFile = loadFromRessources(ROLLS_FILE_NAME);
 
-        // Convertir les lignes en une grille 2D
         int lineCount = rollsFile.getLineCount();
         if (lineCount == 0) {
             System.out.println("Le fichier de rouleaux est vide.");
@@ -158,18 +109,15 @@ public class PaperRoller {
         }
 
         int colCount = rollsFile.getLine(0).length();
-        char[][] grid = new char[lineCount][colCount];
+        char[][] initialGrid = new char[lineCount][colCount];
 
         for (int i = 0; i < lineCount; i++) {
-            // Assurez-vous que toutes les lignes ont la même longueur pour éviter ArrayOutOfBounds
-            grid[i] = rollsFile.getLine(i).toCharArray();
+            initialGrid[i] = rollsFile.getLine(i).toCharArray();
         }
 
-        // Exécuter le calcul et afficher le résultat
-        int accessibleRolls = solve(grid);
-        System.out.println("Le nombre de rouleaux de papier accessibles est : " + accessibleRolls);
+        // Exécuter la simulation de la Partie Deux
+        int totalRollsRemoved = solvePartTwo(initialGrid);
 
-        accessibleRolls = solvePartTwo(grid);
-        System.out.println("Le nombre de papier accessibles est : " + accessibleRolls);
+        System.out.println("Le nombre total de rouleaux de papier pouvant être retirés est : " + totalRollsRemoved);
     }
 }
